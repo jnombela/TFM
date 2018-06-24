@@ -115,7 +115,7 @@ def Run(data_file, out_dir,filter):
       lista = key_url_list
   
   t1=time.time()
-  p = Pool(processes=32)
+  p = Pool(processes=128)
     
   #p.imap_unordered(func=DownloadImage,iterable=key_url_list,chunksize=25)
   
