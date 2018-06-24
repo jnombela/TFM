@@ -42,7 +42,12 @@ def leer_imagenes_etiquetas(ruta):
     with tqdm(total=len(filelist)) as t:
         for imgPath in filelist:
             imagen=leer_una_imagen(ruta + imgPath)
-            imagen = img_to_array(imagen) # pasa a array
+            if not imagen:
+                continue  # si ha fallado la lectura, y por tanto viene vacío, nos saltamos la imagen
+            try:
+                imagen = img_to_array(imagen) # pasa a array, si falla nos saltamos la imagen
+            except:
+                continue
             x.append(imagen)
             
             label = imgPath[imgPath.find("_")+1:imgPath.find(".")] # la etiqueta está entre _ y .
