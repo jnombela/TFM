@@ -109,18 +109,16 @@ def filter_key_url(list,class_filter):
 def Run(data_file, out_dir,filter):
   key_url_list = ParseData(data_file)
   
-  if (filter and 'test' not in data_file):
-      lista = filter_key_url(key_url_list,filter)
-  else:
-      lista = key_url_list
+#  if (filter and 'test' not in data_file):
+#      lista = filter_key_url(key_url_list,filter)
+#  else:
+  lista = key_url_list
   
   t1=time.time()
   p = Pool(processes=128)
-    
-  #p.imap_unordered(func=DownloadImage,iterable=key_url_list,chunksize=25)
-  
+
   with tqdm(total=len(lista)) as t:
-      for x in p.imap_unordered(func=DownloadImage,iterable=lista,chunksize=10):
+      for x in p.imap_unordered(func=DownloadImage,iterable=lista,chunksize=2):
         t.update(1)
 
   p.close()

@@ -69,10 +69,14 @@ def preproceso_imagenes_etiquetas(x,y,numero_clases):
 ## Leer una imagen del disco
 ###################
 def leer_una_imagen(uri):
+  try:
     image_bytes = file_io.FileIO(uri, mode='rb').read()
     image = PIL.Image.open(io.BytesIO(image_bytes)).convert('RGB')
     image = image.resize((img_width, img_height), PIL.Image.BILINEAR)
     return image
+  except:
+    print ("FALLA LA URL   :" ,uri)
+    return
 #####################################
 def obtener_rutas_locales(ruta):
         # obtenemos la ruta padre
@@ -102,7 +106,7 @@ def generar_fichero_npy(numero_clases):
         np.save(output,y)
         output.flush()
 
-    storage_client = storage.Client.from_service_account_json('/media/storage/proyectos/claves/Deep-1-cf9564fb42a8.json')
+    storage_client = storage.Client.from_service_account_json(args["ruta_cla_bu"])
     bucket = storage_client.get_bucket('deep-1-203210-mlengine')        
     
     print("EMPIEZA A GRABAR EN BUCKET", time.time())
@@ -125,6 +129,7 @@ if __name__ == '__main__':
     ap.add_argument("-i", "--ruta_in", required=True, help="ruta de origen de los ficheros")
     ap.add_argument("-1", "--ruta_out1", required=False, help="ruta de escritura 1")
     ap.add_argument("-2", "--ruta_out2", required=False, help="ruta de escritura 2")
+    ap.add_argument("-b", "--ruta_cla_bu", required=False, help="ruta clave bucket")
     # parseo de argumentos
     args = vars(ap.parse_args())
 
