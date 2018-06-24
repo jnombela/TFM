@@ -109,7 +109,7 @@ def filter_key_url(list,class_filter):
 def Run(data_file, out_dir,filter):
   key_url_list = ParseData(data_file)
   
-  if filter:
+  if (filter and 'test' not in data_file):
       lista = filter_key_url(key_url_list,filter)
   else:
       lista = key_url_list
